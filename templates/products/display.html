@@ -1,0 +1,33 @@
+<!-- This html was created to display the extended features from 'base2.html'  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample blocks experiment</title>
+</head>
+<body>
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block container %}
+
+<table class="table table-condensed">
+    <thead>
+
+    </thead>
+    <tr>
+        <td>
+            {{block.super}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Presently working under <span class="fa fa-at"></span> <span class="primary"> <b>MicroPyramid Pvt. Ltd</b></span>
+        </td>
+    </tr>
+</table>
+
+{% endblock %}
+
+</body>
+</html>

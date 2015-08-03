@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+    <!--<form action="{% url 'products:addproduct' %}" method="post">-->
+          <!--{% csrf_token %}-->
+
+            <!--&lt;!&ndash;{{ form.as_p }}&ndash;&gt;-->
+
+            <!--{# Include the hidden fields in the form #}-->
+            <!--&lt;!&ndash;{% if form.non_field_errors %}&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="form_errors">&ndash;&gt;-->
+                  <!--&lt;!&ndash;{% for err in form.non_field_errors %}&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="form_error_message">{{ err }}</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
+
+            <!--{% for hidden in form.hidden_fields %}-->
+               <!--{{ hidden }}-->
+            <!--{% endfor %}-->
+
+            <!--{% for field in form.visible_fields %}-->
+              <!--<div {% if field.errors %}class="field_error"{% endif %}>-->
+                <!--{{ field.label_tag }}-->
+                <!--{{ field }}-->
+                <!--{% for err in field.errors %}-->
+                <!--<span class="error_message">{{ err }}</span>-->
+                <!--{% endfor %}-->
+              <!--</div>-->
+            <!--{% endfor %}-->
+
+        <!--<button type="submit" class="btn btn-success"><span class="fa fa-send"> Submit Details</span></button>-->
+    <!--</form>-->
+
+
+
+    {% load bootstrap3 %}
+
+    {# Display a form #}
+
+    <form action="{% url 'products:addproduct' %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "send" %}  Submit
+            </button>
+        {% endbuttons %}
+    </form>
+
+
+
+
+    <!--<form class="form-horizontal" action="{% url 'products:addproduct' %}" method="post">{% csrf_token %}-->
+        <!--<fieldset>-->
+            <!--<legend>{{ title }}</legend>-->
+            <!--{% for field in form %}-->
+                <!--{% if field.errors %}-->
+                    <!--<div class="control-group error">-->
+                        <!--<label class="control-label">{{ field.label }}</label>-->
+                        <!--<div class="controls">{{ field }}-->
+                            <!--<span class="help-inline">-->
+                                <!--{% for error in  field.errors %}{{ error }}{% endfor %}-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--{% else %}-->
+                    <!--<div class="control-group">-->
+                        <!--<label class="control-label">{{ field.label }}</label>-->
+                        <!--<div class="controls">{{ field }}-->
+                            <!--{% if field.help_text %}-->
+                                <!--<p class="help-inline"><small>{{ field.help_text }}</small></p>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--{% endif %}-->
+            <!--{% endfor %}-->
+        <!--</fieldset>-->
+        <!--<br />-->
+        <!--<div class="form-actions">-->
+            <!--<button type="submit" class="btn btn-primary" >-->
+                <!--<span class="fa fa-send"> Submit</span>-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</form>-->
+
+{% endblock %}
+</body>
+</html>
+
+
+

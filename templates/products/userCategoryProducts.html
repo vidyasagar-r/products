@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Category Products</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+    <h3>Name: {{user.username}}</h3>
+    <button>Add Category</button>
+    <table class="table table-bordered">
+        <thead>
+            <th>Category</th>
+            <th>Products</th>
+        </thead>
+        <tbody>
+        {% for category in category_list %}
+            <td>
+                <a href=""> {{ category.name }}</a>
+            </td>
+            <td>
+                <button>View Products</button>
+            </td>
+            <td>
+                <button>Add Products</button>
+            </td>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+</body>
+</html>

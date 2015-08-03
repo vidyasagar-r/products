@@ -1,0 +1,36 @@
+<!-- This html was created to display the extended features from this in 'display.html'  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %}</title>
+     {% load staticfiles %}
+      <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="{% static 'products/css/bootstrap.min.css' %}" rel="stylesheet" />
+      <link href="{% static 'products/css/bootstrap-theme.min.css' %}" rel="stylesheet" />
+      <link href="{% static 'products/css/font-awesome.css' %}" rel="stylesheet" />
+      <link href="{% static 'products/css/font-awesome.min.css' %}" rel="stylesheet" />
+      <style type="text/css">
+          table td,th {text-align: center;}
+      </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <div class="content-main">
+                {% block container %}
+
+                    Name : Vidyasagar<br />
+                    College : RGUKT Basar<br/>
+                    Id : B091889<br />
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+        <script src="{% static 'products/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'products/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

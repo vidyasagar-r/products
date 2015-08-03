@@ -1,0 +1,228 @@
+
+{% extends 'base1.html' %}
+{% load custom_filters %}
+{% block container %}
+
+
+
+    {% if products_list %}
+        <table class="table table-bordered">
+
+                <h3>Products</h3>
+                <hr />
+                <p>
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <button class="btn btn-warning pull-left">
+                            <span class="fa fa-hand-o-left"> Go back</span>
+                        </button>
+                    </a>
+                </p>
+                <p align="center">
+                    <a href="{% url 'products:addproduct' %}">
+                        <button class="btn btn-default">
+                            <span class="fa fa-plus" aria-hidden="true"> Add Product</span>
+                        </button>
+                    </a>
+                </p>
+
+            <thead>
+                <th><span class="fa fa-sort-numeric-asc"></span> Id</th>
+                <th>Name</th>
+                <th><span class="fa fa-rupee"></span> Price</th>
+                <th><span class="fa fa-file"></span> Category</th>
+                <th><span class="fa fa-file-text"></span> Description</th>
+                <th><span class="fa fa-image"></span> Image</th>
+                <th><span class="fa fa-edit"></span> Edit</th>
+                <th><span class="fa fa-trash"></span> Delete</th>
+                <th><span class="fa fa-shopping-cart"></span> Add To Basket</th>
+            </thead>
+            <tbody>
+
+            <div class="panel panel-success">
+                <div class="panel-heading"> Products in the database</div>
+                <div class="panel-body">
+                    {{ products_list }}
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"><span class="fa fa-shopping-cart"></span> Items in Basket Count will be displayed here</div>
+
+                <div class="panel-body">
+                <!-- this is a tab space -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" title="Displays items list" data-target="#myModal">
+                    <span class="fa fa-list"></span> List of Items in basket
+                </button>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">
+                                <span class="fa fa-shopping-cart"></span> Items in Basket
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                {% if basket_items %}
+                                <ol class="list-group">
+                                    {% for item in basket_items%}
+                                        <li class="list-group-item">
+                                            <span class="badge pull-left"> {{forloop.counter}} </span>
+                                            &nbsp;&nbsp; {{item}} - {{item.product}}
+                                            ( {{item.date.date}} )
+                                            <span class="fa fa-arrow-right"></span>
+                                            {{ item.date.date|is_past_due }}
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                                {% else %}
+                                    There are no items in the list !!
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ends this is a tab space -->
+
+
+                    <button class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="left"
+                            title="Total number of items in the basket">
+                        Items in basket :
+                        <span class="badge">
+                            {{basket_count}}
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            {% for product in products_list %}
+                <tr>
+                    <td>{{product.id}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.description}}</td>
+                    <td>
+                        {% if not product.photo.url %}
+                            <img src="{{ product.photo }}" alt="{{product.photo.url}}" width="100px" height="100px"/>
+                        {% else %}
+                            <img src="{{ product.photo.url }}" alt="{{product.photo.url}}" width="100px" height="100px"/>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'products:editproduct' product_id=product.id %}">
+                            <button class="btn btn-primary"><span class="fa fa-edit"> Edit</span></button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'products:delProduct' product_id=product.id %}">
+                            <button class="btn btn-danger"><span class="fa fa-trash-o"> Delete</span></button>
+                        </a>
+                    </td>
+
+                    <td>
+
+                        {% if request.user|addedToBasket_check:product %}
+                            <ul class="list-group">
+                                <p><span class="fa fa-user"></span> <span class="badge"> {{request.user}} </span></p>
+                                <li class="list-group-item">
+                                    <button class="btn btn-info active" title="This item added to the basket"><span class="fa fa-cart-plus"> Item added</span> </button>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <a href="{% url 'products:delFromBasket' product_id=product.id %}">
+                                        <button class="btn btn-danger" title="Delete added the item from basket"><span class="fa fa-trash-o"></span> Delete Item</button>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <p><span class="fa fa-user"></span> <span class="badge"> {{request.user}} </span></p>
+                            <a href="{% url 'products:addToBasket' product_id=product.id %}">
+                                <button class="btn btn-info" title="Add this item to the basket"><span class="fa fa-shopping-cart"> Add </span></button>
+                            </a>
+
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <blockquote>
+            <p>
+                There are no products to show here !
+                <footer>:(</footer>
+            </p>
+        </blockquote>
+    {% endif %}
+
+
+    <!--{% if products_list %}-->
+        <!--<table class="table table-bordered">-->
+            <!--<caption>-->
+                <!--<h3>Products</h3>-->
+                <!--<hr />-->
+                <!--<p>-->
+                    <!--<a href="{{request.META.HTTP_REFERER}}">-->
+                        <!--<button class="btn btn-warning pull-left">-->
+                            <!--<span class="fa fa-hand-o-left"> Go back</span>-->
+                        <!--</button>-->
+                    <!--</a>-->
+                <!--</p>-->
+                <!--<p align="center">-->
+                    <!--<a href="{% url 'products:addproduct' %}">-->
+                        <!--<button class="btn btn-default">-->
+                            <!--<span class="fa fa-plus" aria-hidden="true"> Add Product</span>-->
+                        <!--</button>-->
+                    <!--</a>-->
+                <!--</p>-->
+            <!--</caption>-->
+            <!--<thead>-->
+                <!--<th>Name</th>-->
+                <!--<th>Category</th>-->
+                <!--<th><span class="fa fa-user"></span> User</th>-->
+                <!--<th><span class="fa fa-image"></span> Image</th>-->
+                <!--<th><span class="fa fa-edit"></span> Edit</th>-->
+                <!--<th><span class="fa fa-trash"></span> Delete</th>-->
+                <!--<th><span class="fa fa-shopping-cart"></span> Add To Basket</th>-->
+            <!--</thead>-->
+            <!--{% for product in products_list %}-->
+            <!--<tr>-->
+                <!--<td>{{product.name}}</td>-->
+                <!--<td>{{product.category}}</td>-->
+                <!--<td>{{product.user}}</td>-->
+                <!--<td>-->
+                    <!--<img src="/static/{{ product.photo }}" alt="{{product.photo}}" width="100px" height="100px"/>-->
+                    <!--&lt;!&ndash;<img src="/media/{{ product.photo }}" alt="{{product.photo}}" />&ndash;&gt;-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<a href="{% url 'products:editproduct' product_id=product.id %}">-->
+                        <!--<button class="btn btn-primary"><span class="fa fa-edit"> Edit</span></button>-->
+                    <!--</a>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<a href="{% url 'products:delProduct' product_id=product.id %}">-->
+                        <!--<button class="btn btn-danger"><span class="fa fa-trash-o"> Delete</span></button>-->
+                    <!--</a>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--{% endfor %}-->
+        <!--</table>-->
+    <!--{% else %}-->
+        <!--<blockquote>-->
+            <!--<p>-->
+                <!--There are no products to show here !-->
+                <!--<footer>:(</footer>-->
+            <!--</p>-->
+        <!--</blockquote>-->
+    <!--{% endif %}-->
+
+
+
+{% endblock %}

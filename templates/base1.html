@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %}</title>
+     {% load static %}
+      <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="{% static 'products/css/bootstrap.min.css' %}" rel="stylesheet" />
+      <link href="{% static 'products/css/font-awesome.css' %}" rel="stylesheet" />
+      <link href="{% static 'products/css/font-awesome.min.css' %}" rel="stylesheet" />
+      <style type="text/css">
+          table td,th {text-align: center;}
+      </style>
+</head>
+<body>
+
+    <div>
+      {{ user }}
+      {% if user.is_anonymous %}
+      <a href="{% url 'django.contrib.auth.views.login' %}">login</a>
+      {% else %}
+      <a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
+      {% endif %}
+    </div>
+
+    <div class="container">
+      <!--<div class="header">-->
+        <!--<h3 class="text-muted">-->
+            <!--{% block 'header' %}Welcome{% endblock %}-->
+        <!--</h3>-->
+      <!--</div>-->
+      <!--<hr />-->
+        {% block container %}Content goes here
+
+
+
+             <div class="table-responsive">
+                 {% block 'table-responsive' %}
+                    <table class="table table-bordered">
+
+                        <tr>
+
+                        </tr>
+
+                    </table>
+                 {% endblock %}
+
+             </div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    {% block 'form-horizontal' %}
+                        <div class="form-group">
+                            {% block 'form-group' %}
+                                form goes here
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            </form>
+            {% endblock %}
+    </div>
+
+
+
+    <script src="{% static 'products/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'products/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'products/js/docs.min.js' %}"></script>
+
+</body>
+</html>

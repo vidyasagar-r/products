@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product By Category</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+    <form action="{% url 'products:addproductByCat' user_id=user.id category_id=category.id %}" method="post">
+        {% csrf token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success"><span class="fa fa-send"> Submit Details</span></button>
+    </form>
+{% endblock %}
+</body>
+</html>

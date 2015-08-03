@@ -1,0 +1,15 @@
+
+{% extends 'base1.html' %}
+{% load staticfiles %}
+{% block head %}
+
+{% endblock %}
+{% block container %}
+    {% block row %}
+        Welcome to my <a href="/products"> home </a>
+    {% endblock %}
+    {% block content %}
+        <p>Welcome : {{user.username}} !!!</p>
+        <button class="btn btn-primay"><a href="/logout/"><span class="fa fa-sign-out"> Logout</span></a></button>
+    {% endblock %}
+{% endblock %}

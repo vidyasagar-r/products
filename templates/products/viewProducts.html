@@ -1,0 +1,133 @@
+
+{% extends 'base1.html' %}
+{% load custom_filters %}
+{% load staticfiles %}
+{% block title %}View Products{% endblock %}
+{% block container %}
+
+    <h3>
+        User: <span class="badge"> {{request.user}} </span>
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-warning pull-right" title="Logout"><span class="fa fa-sign-out"></span> Logout</button>
+        </a>
+    </h3>
+
+    {% if list_products %}
+        <table class="table table-bordered">
+            <thead>
+                <th><span class="fa fa-sort-numeric-asc"></span> Id</th>
+                <th>Name</th>
+                <th><span class="fa fa-rupee"></span> Price</th>
+                <th><span class="fa fa-file"></span> Category</th>
+                <th><span class="fa fa-file-text"></span> Description</th>
+                <th><span class="fa fa-image"></span> Image</th>
+                <th><span class="fa fa-shopping-cart"></span> Add To Basket</th>
+            </thead>
+            <tbody>
+
+            <div class="panel panel-success">
+                <div class="panel-heading"> Products in the database</div>
+                <div class="panel-body">
+                    {{ list_products }}
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"><span class="fa fa-shopping-cart"></span> Items in Basket Count will be displayed here</div>
+
+                <div class="panel-body">
+                <!-- this is a tab space -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" title="Displays items list" data-target="#myModal">
+                    <span class="fa fa-list"></span> List of Items in basket
+                </button>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">
+                                <span class="fa fa-shopping-cart"></span> Items in Basket
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                {% if basket_items %}
+                                <ol class="list-group">
+                                    {% for item in basket_items%}
+                                        <li class="list-group-item">
+                                            <span class="badge pull-left"> {{forloop.counter}} </span>
+                                            &nbsp;&nbsp; {{item}} - {{item.product}}
+                                            ( {{item.date.date}} )
+                                            <span class="fa fa-arrow-right"></span>
+                                            {{ item.date|is_past_due }}
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                                {% else %}
+                                    There are no items in the list !!
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ends this is a tab space -->
+
+
+                    <button class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="left"
+                            title="Total number of items in the basket">
+                        Items in basket :
+                        <span class="badge">
+                            {{basket_count}}
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            {% for product in list_products %}
+                <tr>
+                    <td>{{product.id}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.description}}</td>
+                    <td>
+                        <img src="{{ product.photo.url }}" alt="{{product.photo}}" width="100px" height="100px"/>
+                    </td>
+                    <td>
+
+                        {% if request.user|addedToBasket_check:product %}
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <button class="btn btn-info active" title="This item added to the basket"><span class="fa fa-cart-plus"> Item added</span> </button>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <a href="{% url 'products:delFromBasket' product_id=product.id %}">
+                                        <button class="btn btn-danger" title="Delete added the item from basket"><span class="fa fa-trash-o"></span> Delete Item</button>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <a href="{% url 'products:addToBasket' product_id=product.id %}">
+                                <button class="btn btn-info" title="Add this item to the basket"><span class="fa fa-shopping-cart"> Add </span></button>
+                            </a>
+
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <blockquote class="bg-success">
+            <p>
+                There are no categories under '<b>{{user.username}}</b>' to show !</p>
+                <footer>:(</footer>
+        </blockquote>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Category</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+    <!--<form action="{% url 'products:addcategory' %}" method="post">-->
+        <!--{% block 'form-group' %}-->
+          <!--{% csrf_token %}-->
+          <!--{{ form.as_p }}-->
+        <!--{% endblock %}-->
+
+        <!--<button type="submit" class="btn btn-success"><span class="fa fa-send"> Submit Details</span></button>-->
+    <!--</form>-->
+
+    {% load bootstrap3 %}
+
+    {# Display a form #}
+
+    <form action="{% url 'products:addcategory' %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "send" %}  Submit
+            </button>
+        {% endbuttons %}
+    </form>
+
+
+    <!--<form class="form-horizontal" action="{% url 'products:addcategory' %}" method="post">{% csrf_token %}-->
+        <!--<fieldset>-->
+            <!--<legend>{{ title }}</legend>-->
+            <!--{% for field in form %}-->
+                <!--{% if field.errors %}-->
+                    <!--<div class="control-group error">-->
+                        <!--<label class="control-label">{{ field.label }}</label>-->
+                        <!--<div class="controls">{{ field }}-->
+                            <!--<span class="help-inline">-->
+                                <!--{% for error in  field.errors %}{{ error }}{% endfor %}-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--{% else %}-->
+                    <!--<div class="control-group">-->
+                        <!--<label class="control-label">{{ field.label }}</label>-->
+                        <!--<div class="controls">{{ field }}-->
+                            <!--{% if field.help_text %}-->
+                                <!--<p class="help-inline"><small>{{ field.help_text }}</small></p>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--{% endif %}-->
+            <!--{% endfor %}-->
+        <!--</fieldset>-->
+        <!--<br />-->
+        <!--<div class="form-actions">-->
+            <!--<button type="submit" class="btn btn-primary" >-->
+                <!--<span class="fa fa-send"> Submit</span>-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</form>-->
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+
+    <table class="table table-bordered">
+        <caption>
+            <h3>Categories</h3>
+            <hr />
+            <p>
+                <a href="{{request.META.HTTP_REFERER}}">
+                    <button class="btn btn-warning pull-left">
+                        <span class="fa fa-hand-o-left"> Go back</span>
+                    </button>
+                </a>
+            </p>
+            <p align="center">
+                <a href="{% url 'products:addcategory' %}">
+                    <button class="btn btn-default">
+                        <span class="fa fa-plus"> Add Category</span>
+                    </button>
+                </a>
+            </p>
+        </caption>
+        <thead>
+            <th>Category</th>
+            <th>No. of Products</th>
+            <th><span class="fa fa-user"></span> User - Em@il</th>
+            <th><span class="fa fa-edit"></span> Edit</th>
+            <th><span class="fa fa-trash-o"></span> Delete</th>
+            <th><span class="fa fa-eye"></span> View</th>
+        </thead>
+        {% for category in category_list %}
+        <tr>
+            <td>{{category.name}}</td>
+            <td>{{category.products_set.count}}</td>
+            <td>{%for user in category.user.all %}
+                    {{user.username}} - {{user.email}}<br />
+                {%endfor%}
+            </td>
+            <td>
+                        <a href="{% url 'products:editcategory' category_id=category.id %}" >
+                            <button class="btn btn-primary" value="editCategory" >
+                                <span class="fa fa-edit"> Edit</span>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'products:delCategory' category_id=category.id%}" >
+                            <button class="btn btn-danger" value="deleteCategory" >
+                                <span class="fa fa-trash-o"> Delete</span>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'products:viewproductsByCategory' category_id=category.id%}" >
+                            <button class="btn btn-info" value="viewCategory" >
+                                <span class="fa fa-file-text"> View</span>
+                            </button>
+                        </a>
+                    </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+</body>
+</html>

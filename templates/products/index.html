@@ -1,0 +1,105 @@
+
+{% extends 'base1.html' %}
+{% load staticfiles %}
+
+
+{% block container %}
+    {% if total_list %}
+        {% block row %}
+            <div class="table-responsive">
+            <table class="table table-bordered">
+                <caption><h2><span class="fa fa-users"></span> <span class="badge">{{request.user}}</span> </h2>
+                    <hr />
+                    <p align="center">
+                        <a href="{% url 'products:adduser' %}">
+                            <button class="btn btn-default">
+                                <span class="fa fa-user-plus" aria-hidden="true"> AddUser</span>
+                            </button>
+                        </a>
+
+                        <!--<button class="btn btn-warnin
+                        -->
+                    </p>
+                </caption>
+
+                <thead class="bg-success">
+                    <th><span class="fa fa-user"></span> Name</th>
+                    <th>Em@il</th>
+                    <th>No. of Categories</th>
+                    <th>No. of Products</th>
+                    <th><span class="fa fa-edit"></span> Edit</th>
+                    <th><span class="fa fa-trash-o"></span> Delete</th>
+                    <th colspan="2"><span class="fa fa-eye"></span> View</th>
+                </thead>
+
+                {% for user in total_list %}
+                <tr>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.category_set.count}}</td>
+                    <td>{{user.products_set.count}}</td>
+                    <td>
+                        <a href="{% url 'products:edituser' user_id=user.id %}" >
+                            <button class="btn btn-primary" value="editUser" >
+                                <span class="fa fa-edit"> Edit</span>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'products:delUser' user_id=user.id %}" >
+                            <button class="btn btn-danger" value="editUser" >
+                                <span class="fa fa-user-times"> Delete</span>
+                            </button>
+                        </a>
+                    </td>
+                        <td>
+                            <a href="{% url 'products:viewCategory' user_id=user.id %}" >
+                                <button class="btn btn-success" value="viewCategories" >
+                                     <span class="fa fa-list-ul"> Categories</span>
+                                </button>
+                            </a>
+                        </td>
+                    <td>
+                            <a href="{% url 'products:viewProducts' user_id=user.id %}">
+                                <button class="btn btn-success" value="viewProducts" >
+                                    <span class="fa fa-list-ul"> Products</span>
+                                </button>
+                            </a>
+                        </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+            <table class="table table-bordered">
+                <thead>
+                    <th>Categories</th>
+                    <th>Products</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="{% url 'products:category' %}" >
+                                <button class="btn btn-success" value="viewCategories" >
+                                     <span class="fa fa-list-ol"> View Categories</span>
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'products:product'%}" >
+                                <button class="btn btn-success" value="viewproducts" >
+                                    <span class="fa fa-list-ol"> View Products</span>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endblock %}
+    {% else %}
+        <p>
+            No polls are available.
+        </p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+    <h3>Name : {{user.username}}</h3>
+    {% if list_category %}
+        <table class="table table-bordered">
+            <thead>
+                <th>Category</th>
+                <th>View Products</th>
+            </thead>
+            <tbody>
+                {{list_category}}
+                {% for category in list_category %}
+                    <tr>
+                        <td>
+                            {{category.name}}
+                        </td>
+                        <td>{% for product in category.products_set.all %}
+                                {{product}}<br/>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <blockquote class="bg-success">
+            <p>
+                There are no categories under '<b>{{user.username}}</b>' to show !</p>
+                <footer>:(</footer>
+        </blockquote>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body>
+{% extends 'base1.html' %}
+{% block container %}
+    <h3>Name : {{user.username}}</h3>
+    <a href="{% url 'products:addcategory' user_id=user.id %}">
+        <button>Add Category</button>
+    </a>
+    <table class="table table-bordered">
+        <thead>
+            <th>Category</th>
+            <th>View Products</th>
+            <th>Add Products</th>
+            <th>Delete Products</th>
+        </thead>
+        <tbody>
+        {{list_category}}
+        {% for category in list_category %}
+            <tr>
+                <td>
+                    {{category.name}}
+                </td>
+                <td>
+                    <a href="{% url 'products:viewproductByCat' user_id=user.id category_id=category.id %}">
+                        <button>View Products</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'products:addProductByCat' user_id=user.id category_id=category.id %}">
+                        <button>Add products</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'products:DelProductByCat' user_id=user.id category_id=category.id %}">
+                        <button>Delete Products</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+</body>
+</html>
